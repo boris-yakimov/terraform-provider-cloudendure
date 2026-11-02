@@ -101,14 +101,10 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 
 	userApiToken := fmt.Sprintf(`{"userApiToken":"%v"}`, apiKey)
 
-	fmt.Println("api_key: ", apiKey)
-	fmt.Println("userApiToken: ", userApiToken)
-
 	var requestBody = []byte(userApiToken)
 
 	// TODO: figure out how to print those as INFO message in TF
 	fmt.Println("Authenticate into CloudEndure using API Key")
-	//var requestBody = []byte(`{"userApiToken":"B212-1445-FBE4-525A-658D-0885-86FD-4510-8192-EDA1-CA50-7738-AAAB-6D5B-A502-1F07"}`)
 
 	loginURL := fmt.Sprintf("%s/login", cloudEndureApiURL)
 	request, defineRequestErr := http.NewRequest("POST", loginURL, bytes.NewBuffer(requestBody))

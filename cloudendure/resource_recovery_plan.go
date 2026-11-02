@@ -67,7 +67,7 @@ func resourceRecoveryPlanCreate(ctx context.Context, d *schema.ResourceData, met
 	client := meta.(*http.Client)
 
 	cloudEndureApiURL := "https://console.cloudendure.com/api/latest"
-	cloudEndureProjectId := "projects/d5aed277-b6fb-4c6c-bedf-bb52799c99f2"
+	cloudEndureProjectId := "projects/REPLACE_WITH_PROJECT_ID"
 
 	requestURL := fmt.Sprintf("%s/%s/recoveryPlans", cloudEndureApiURL, cloudEndureProjectId)
 
@@ -87,8 +87,6 @@ func resourceRecoveryPlanCreate(ctx context.Context, d *schema.ResourceData, met
 		return diag.FromErr(defineRequestErr)
 	}
 
-	req.Header.Add("X-XSRF-TOKEN", "3kZPD1PXwmipfaJn1Wuljg==")
-	req.Header.Add("Cookie", "Cookie_1=value; XSRF-TOKEN=\"3kZPD1PXwmipfaJn1Wuljg==\\012\"; session=.eJxNkG1rgzAURv_KuJ-lWN_WCoWNUQvdKjhqnY4RoqY21iRdEp1t8b_PQmGD--U53PtwuFfARSFarlHb0hL8Kzzk4MPmUtYZS63UWurQCll6Ns2QRe7btnLCy0aHq8jJtkd3Uy-dtI4cGAzAJ6rQiUjEKG81Ad8yTQMarDTChaYdQZqyEU892_bm4zxOPG82m04NGK8YVYoKrsD_vDvEbHfInheLsftOdvb6VK7ifyRKyibn7-uch2aa9AqGLwMkwSUSvDmjRlSUg7_HjSIGtIpIjm8KkAtJ1eSMj5SJ7okJySmvlMZyUggGBnRE3mzGzc4dY6_kHmlxJPzvQ5bG8TLq4-Bg50nzk7HgNa-DjzLpv7OLOX-pbubDL6CUc4U.FEHBgQ.41V_rVmKg__CNId2VTkLyZAUgBs")
 
 	response, sendRequestErr := client.Do(req)
 	if sendRequestErr != nil {

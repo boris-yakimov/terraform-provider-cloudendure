@@ -8,11 +8,11 @@ terraform {
 }
 
 locals {
-  blueprint_id = "f320947e-1555-4cee-9128-58a6cc4dd99c"
+  blueprint_id = "REPLACE_WITH_BLUEPRINT_ID"
 }
 
+# api_key is read from the CLOUDENDURE_API_KEY environment variable.
 provider "cloudendure" {
-  api_key         = "B212-1445-FBE4-525A-658D-0885-86FD-4510-8192-EDA1-CA50-7738-AAAB-6D5B-A502-1F07"
   cloudendure_url = "https://console.cloudendure.com/api/latest"
 }
 

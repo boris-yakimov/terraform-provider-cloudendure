@@ -90,7 +90,6 @@ func dataSourceBlueprintRead(ctx context.Context, d *schema.ResourceData, meta i
 	//client := &http.Client{}
 	client := meta.(*http.Client)
 
-
 	fmt.Println("request URL:", req.URL)
 	fmt.Println("request Method:", req.Method)
 	fmt.Println("request Headers:", req.Header)

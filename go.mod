@@ -1,6 +1,6 @@
-module terraform-provider-cloudendure
+module github.com/boris-yakimov/terraform-provider-cloudendure
 
-go 1.17
+go 1.23
 
 require github.com/hashicorp/terraform-plugin-sdk/v2 v2.8.0
 

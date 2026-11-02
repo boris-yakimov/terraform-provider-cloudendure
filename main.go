@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/boris-yakimov/terraform-provider-cloudendure/cloudendure"
 	"log"
-	"terraform-provider-cloudendure/cloudendure"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"

@@ -5,10 +5,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/boris-yakimov/terraform-provider-cloudendure/models"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"terraform-provider-cloudendure/models"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -56,7 +56,7 @@ func marshalRecoveryPlanInput(d *schema.ResourceData) *models.RecoveryPlanInput 
 	// TODO: fix this
 	return &models.RecoveryPlanInput{
 		// requried
-		Name:  d.Get("machine_name").(string),
+		Name: d.Get("machine_name").(string),
 		//Steps: ,
 	}
 }
@@ -86,7 +86,6 @@ func resourceRecoveryPlanCreate(ctx context.Context, d *schema.ResourceData, met
 	if defineRequestErr != nil {
 		return diag.FromErr(defineRequestErr)
 	}
-
 
 	response, sendRequestErr := client.Do(req)
 	if sendRequestErr != nil {

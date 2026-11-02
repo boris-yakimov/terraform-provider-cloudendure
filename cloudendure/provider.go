@@ -62,7 +62,7 @@ func Provider() *schema.Provider {
 }
 
 // Authenticate in Cloudendure - assign cookie and xsrf token to HTTP client
-//func authCloudEndure(httpClient *http.Client, apiKey string, cloudEndureApiURL string) (cookieList []*http.Cookie, authErr error) {
+// func authCloudEndure(httpClient *http.Client, apiKey string, cloudEndureApiURL string) (cookieList []*http.Cookie, authErr error) {
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 	var diags diag.Diagnostics
 

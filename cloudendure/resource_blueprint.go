@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"terraform-provider-cloudendure/models"
+	"github.com/boris-yakimov/terraform-provider-cloudendure/models"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -338,7 +338,6 @@ func resourceBlueprintCreate(ctx context.Context, d *schema.ResourceData, meta i
 		return diag.FromErr(defineRequestErr)
 	}
 
-
 	response, sendRequestErr := client.Do(req)
 	if sendRequestErr != nil {
 		return diag.FromErr(sendRequestErr)
@@ -377,7 +376,6 @@ func resourceBlueprintRead(ctx context.Context, d *schema.ResourceData, meta int
 	if defineRequestErr != nil {
 		return diag.FromErr(defineRequestErr)
 	}
-
 
 	response, sendRequestErr := client.Do(req)
 	if sendRequestErr != nil {

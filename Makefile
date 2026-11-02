@@ -1,37 +1,45 @@
-TEST?=$$(go list ./... | grep -v 'vendor')
-HOSTNAME=hashicorp.com
-NAMESPACE=edu
-NAME=cloudendure
-BINARY=terraform-provider-${NAME}
-VERSION=0.1
-OS_ARCH=linux_amd64
+BINARY    := terraform-provider-cloudendure
+VERSION   ?= 0.1.0
+NAMESPACE := boris-yakimov
+NAME      := cloudendure
+OS_ARCH   := $(shell go env GOOS)_$(shell go env GOARCH)
+PLUGIN_DIR := $(HOME)/.terraform.d/plugins/registry.terraform.io/$(NAMESPACE)/$(NAME)/$(VERSION)/$(OS_ARCH)
 
-default: install
+LDFLAGS := -s -w -X main.version=$(VERSION)
 
-build:
-	go build -o ${BINARY}
+.DEFAULT_GOAL := build
 
-release:
-	GOOS=darwin GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_darwin_amd64
-	GOOS=freebsd GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_freebsd_386
-	GOOS=freebsd GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_freebsd_amd64
-	GOOS=freebsd GOARCH=arm go build -o ./bin/${BINARY}_${VERSION}_freebsd_arm
-	GOOS=linux GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_linux_386
-	GOOS=linux GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_linux_amd64
-	GOOS=linux GOARCH=arm go build -o ./bin/${BINARY}_${VERSION}_linux_arm
-	GOOS=openbsd GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_openbsd_386
-	GOOS=openbsd GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_openbsd_amd64
-	GOOS=solaris GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_solaris_amd64
-	GOOS=windows GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_windows_386
-	GOOS=windows GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_windows_amd64
+.PHONY: build
+build: ## Build the provider binary
+	go build -trimpath -ldflags "$(LDFLAGS)" -o $(BINARY)
 
-install: build
-	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
-	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
+.PHONY: install
+install: build ## Install the provider into the local Terraform plugin directory
+	mkdir -p $(PLUGIN_DIR)
+	mv $(BINARY) $(PLUGIN_DIR)/
 
-test: 
-	go test -i $(TEST) || exit 1                                                   
-	echo $(TEST) | xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4                    
+.PHONY: test
+test: ## Run unit tests (uses an in-memory fake API and the local terraform CLI)
+	go test -race -count=1 -timeout=10m ./...
 
-testacc: 
-	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m   
+.PHONY: lint
+lint: ## Run golangci-lint
+	golangci-lint run ./...
+
+.PHONY: fmt
+fmt: ## Format Go code and Terraform examples
+	gofmt -s -w .
+	terraform fmt -recursive ./examples/
+
+.PHONY: generate
+generate: ## Regenerate docs/ from the provider schema and examples
+	go generate ./...
+
+.PHONY: debug
+debug: ## Build without optimisations and start the provider in debug mode (for delve)
+	go build -gcflags="all=-N -l" -o $(BINARY)
+	./$(BINARY) -debug
+
+.PHONY: help
+help: ## Show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-10s %s\n", $$1, $$2}'

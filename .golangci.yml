@@ -1,0 +1,30 @@
+version: "2"
+
+linters:
+  default: standard
+  enable:
+    - bodyclose
+    - copyloopvar
+    - errorlint
+    - gocritic
+    - misspell
+    - nilerr
+    - noctx
+    - revive
+    - unconvert
+    - unparam
+    - usestdlibvars
+  settings:
+    revive:
+      rules:
+        - name: exported
+          disabled: true
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/boris-yakimov/terraform-provider-cloudendure

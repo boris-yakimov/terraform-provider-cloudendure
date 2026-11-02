@@ -1,0 +1,63 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: go mod download
+      - run: go build -v .
+      - uses: golangci/golangci-lint-action@v8
+        with:
+          version: latest
+
+  generate:
+    name: Docs up to date
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - run: go generate ./...
+      - name: Fail if generated files changed
+        run: |
+          git diff --compact-summary --exit-code || \
+            (echo; echo "Unexpected difference after 'go generate'. Run 'make generate' and commit."; exit 1)
+
+  test:
+    name: Unit tests (Terraform ${{ matrix.terraform }})
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform: ["1.5.*", "1.9.*", "latest"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ matrix.terraform }}
+          terraform_wrapper: false
+      - run: go test -race -count=1 -timeout=10m ./...

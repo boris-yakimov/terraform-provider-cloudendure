@@ -145,7 +145,7 @@ func (c *Client) loginLocked(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("cloudendure: login request failed: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return newAPIError(req, resp)
@@ -213,12 +213,12 @@ func (c *Client) do(ctx context.Context, method, path string, query url.Values, 
 
 		if resp.StatusCode == http.StatusUnauthorized && attempt == 0 {
 			_, _ = io.Copy(io.Discard, resp.Body)
-			resp.Body.Close()
+			_ = resp.Body.Close()
 			continue
 		}
 
 		err = decodeResponse(req, resp, out)
-		resp.Body.Close()
+		_ = resp.Body.Close()
 		return err
 	}
 }

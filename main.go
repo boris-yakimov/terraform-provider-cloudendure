@@ -13,6 +13,9 @@ import (
 // version is set at build time via -ldflags "-X main.version=...".
 var version = "dev"
 
+//go:generate terraform fmt -recursive ./examples/
+//go:generate go tool tfplugindocs generate --provider-name cloudendure
+
 func main() {
 	var debug bool
 	flag.BoolVar(&debug, "debug", false, "run the provider with support for debuggers like delve")

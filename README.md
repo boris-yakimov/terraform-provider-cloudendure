@@ -1,14 +1,18 @@
-# Terraform Provider for CloudEndure
+# Terraform Provider for CloudEndure (DEPRECATED)
+
+> [!WARNING]
+> **This provider is deprecated and no longer maintained.** AWS has discontinued
+> CloudEndure Disaster Recovery (see the
+> [AWS DRS FAQ](https://docs.aws.amazon.com/drs/latest/userguide/FAQ.html)).
+> Use [AWS Elastic Disaster Recovery](https://aws.amazon.com/disaster-recovery/)
+> instead. The code is kept for reference only; Terraform prints a deprecation
+> warning whenever the provider is used.
 
 A proof-of-concept Terraform provider for [CloudEndure](https://docs.cloudendure.com/)
 Disaster Recovery / Migration, built with the
 [Terraform Plugin Framework](https://developer.hashicorp.com/terraform/plugin/framework).
-
-> **Status: archived proof of concept.** AWS has discontinued CloudEndure
-> Disaster Recovery outside the China regions (see the
-> [AWS DRS FAQ](https://docs.aws.amazon.com/drs/latest/userguide/FAQ.html)) in
-> favour of AWS Elastic Disaster Recovery. The provider is tested against an
-> in-memory fake of the CloudEndure API, not against the live service.
+The provider is tested against an in-memory fake of the CloudEndure API, not
+against the live service.
 
 ## Features
 

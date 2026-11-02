@@ -1,3 +1,4 @@
+// Deprecated: CloudEndure has been discontinued by AWS; this provider is no longer maintained.
 module github.com/boris-yakimov/terraform-provider-cloudendure
 
 go 1.25.8

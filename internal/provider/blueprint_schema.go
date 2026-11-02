@@ -159,6 +159,7 @@ func blueprintResourceSchema() schema.Schema {
 	}
 
 	return schema.Schema{
+		DeprecationMessage: deprecationMessage,
 		Description: "Manages the launch blueprint of a CloudEndure machine.\n\n" +
 			"Every replicated machine has exactly one blueprint. On create the provider " +
 			"adopts the machine's existing blueprint (if any) and applies the configured " +
@@ -212,8 +213,9 @@ func blueprintDataSourceSchema() dsschema.Schema {
 	}
 
 	return dsschema.Schema{
-		Description: "Looks up the blueprint of a CloudEndure machine.",
-		Attributes:  attrs,
+		DeprecationMessage: deprecationMessage,
+		Description:        "Looks up the blueprint of a CloudEndure machine.",
+		Attributes:         attrs,
 	}
 }
 

@@ -3,10 +3,13 @@
 page_title: "cloudendure_recovery_plan Resource - cloudendure"
 subcategory: ""
 description: |-
+  !> Deprecated: The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
   Manages a CloudEndure recovery plan: an ordered list of steps, each launching a group of machines.
 ---
 
 # cloudendure_recovery_plan (Resource)
+
+!> **Deprecated:** The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
 
 Manages a CloudEndure recovery plan: an ordered list of steps, each launching a group of machines.
 

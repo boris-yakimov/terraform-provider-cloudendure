@@ -44,7 +44,8 @@ func (d *machineDataSource) Metadata(_ context.Context, req datasource.MetadataR
 
 func (d *machineDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Looks up a source machine in the CloudEndure project by ID or name.",
+		DeprecationMessage: deprecationMessage,
+		Description:        "Looks up a source machine in the CloudEndure project by ID or name.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "Machine ID. Exactly one of `id` or `name` must be set.",
@@ -63,6 +64,7 @@ func (d *machineDataSource) Schema(_ context.Context, _ datasource.SchemaRequest
 			"is_agent_installed": schema.BoolAttribute{Description: "Whether the CloudEndure agent is installed on the machine.", Computed: true},
 		},
 	}
+	resp.Schema.MarkdownDescription = deprecationNotice + resp.Schema.Description
 }
 
 func (d *machineDataSource) ConfigValidators(_ context.Context) []datasource.ConfigValidator {

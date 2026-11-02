@@ -3,10 +3,13 @@
 page_title: "cloudendure_machine Data Source - cloudendure"
 subcategory: ""
 description: |-
+  !> Deprecated: The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
   Looks up a source machine in the CloudEndure project by ID or name.
 ---
 
 # cloudendure_machine (Data Source)
+
+!> **Deprecated:** The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
 
 Looks up a source machine in the CloudEndure project by ID or name.
 

@@ -58,7 +58,8 @@ func (r *recoveryPlanResource) Metadata(_ context.Context, req resource.Metadata
 
 func (r *recoveryPlanResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manages a CloudEndure recovery plan: an ordered list of steps, each launching a group of machines.",
+		DeprecationMessage: deprecationMessage,
+		Description:        "Manages a CloudEndure recovery plan: an ordered list of steps, each launching a group of machines.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description:   "Recovery plan ID.",
@@ -97,6 +98,7 @@ func (r *recoveryPlanResource) Schema(_ context.Context, _ resource.SchemaReques
 			},
 		},
 	}
+	resp.Schema.MarkdownDescription = deprecationNotice + resp.Schema.Description
 }
 
 func (r *recoveryPlanResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {

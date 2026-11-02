@@ -3,11 +3,14 @@
 page_title: "cloudendure_blueprint Resource - cloudendure"
 subcategory: ""
 description: |-
+  !> Deprecated: The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
   Manages the launch blueprint of a CloudEndure machine.
   Every replicated machine has exactly one blueprint. On create the provider adopts the machine's existing blueprint (if any) and applies the configured settings; CloudEndure has no API to delete a blueprint, so destroying this resource only removes it from Terraform state. Attributes that are removed from the configuration keep their last value in CloudEndure.
 ---
 
 # cloudendure_blueprint (Resource)
+
+!> **Deprecated:** The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
 
 Manages the launch blueprint of a CloudEndure machine.
 

@@ -32,6 +32,7 @@ func (d *blueprintDataSource) Metadata(_ context.Context, req datasource.Metadat
 
 func (d *blueprintDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = blueprintDataSourceSchema()
+	resp.Schema.MarkdownDescription = deprecationNotice + resp.Schema.Description
 }
 
 func (d *blueprintDataSource) ConfigValidators(_ context.Context) []datasource.ConfigValidator {

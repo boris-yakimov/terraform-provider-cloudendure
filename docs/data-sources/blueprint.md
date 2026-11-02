@@ -3,10 +3,13 @@
 page_title: "cloudendure_blueprint Data Source - cloudendure"
 subcategory: ""
 description: |-
+  !> Deprecated: The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
   Looks up the blueprint of a CloudEndure machine.
 ---
 
 # cloudendure_blueprint (Data Source)
+
+!> **Deprecated:** The CloudEndure provider is deprecated and no longer maintained. AWS has discontinued CloudEndure Disaster Recovery; migrate to AWS Elastic Disaster Recovery (AWS DRS).
 
 Looks up the blueprint of a CloudEndure machine.
 

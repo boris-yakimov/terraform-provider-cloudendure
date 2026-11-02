@@ -32,6 +32,7 @@ func (r *blueprintResource) Metadata(_ context.Context, req resource.MetadataReq
 
 func (r *blueprintResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = blueprintResourceSchema()
+	resp.Schema.MarkdownDescription = deprecationNotice + resp.Schema.Description
 }
 
 func (r *blueprintResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {

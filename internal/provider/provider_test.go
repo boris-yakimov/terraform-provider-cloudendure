@@ -5,7 +5,10 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	fwresource "github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -317,4 +320,37 @@ resource "cloudendure_recovery_plan" "rp" {
 			},
 		},
 	})
+}
+
+func TestDeprecationMessageOnAllSchemas(t *testing.T) {
+	ctx := t.Context()
+	p := New("test")()
+
+	var provResp fwprovider.SchemaResponse
+	p.Schema(ctx, fwprovider.SchemaRequest{}, &provResp)
+	if provResp.Schema.DeprecationMessage == "" {
+		t.Error("provider schema is missing a deprecation message")
+	}
+
+	for _, f := range p.Resources(ctx) {
+		r := f()
+		var meta fwresource.MetadataResponse
+		r.Metadata(ctx, fwresource.MetadataRequest{ProviderTypeName: "cloudendure"}, &meta)
+		var resp fwresource.SchemaResponse
+		r.Schema(ctx, fwresource.SchemaRequest{}, &resp)
+		if resp.Schema.DeprecationMessage == "" {
+			t.Errorf("resource %s is missing a deprecation message", meta.TypeName)
+		}
+	}
+
+	for _, f := range p.DataSources(ctx) {
+		d := f()
+		var meta datasource.MetadataResponse
+		d.Metadata(ctx, datasource.MetadataRequest{ProviderTypeName: "cloudendure"}, &meta)
+		var resp datasource.SchemaResponse
+		d.Schema(ctx, datasource.SchemaRequest{}, &resp)
+		if resp.Schema.DeprecationMessage == "" {
+			t.Errorf("data source %s is missing a deprecation message", meta.TypeName)
+		}
+	}
 }

@@ -55,7 +55,8 @@ func (p *cloudEndureProvider) Metadata(_ context.Context, _ provider.MetadataReq
 
 func (p *cloudEndureProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manages CloudEndure Disaster Recovery / Migration resources.",
+		DeprecationMessage: deprecationMessage,
+		Description:        "Manages CloudEndure Disaster Recovery / Migration resources.",
 		Attributes: map[string]schema.Attribute{
 			"api_key": schema.StringAttribute{
 				Description: "CloudEndure user API token. Can also be set with the `" + envAPIKey + "` environment variable.",
@@ -72,6 +73,7 @@ func (p *cloudEndureProvider) Schema(_ context.Context, _ provider.SchemaRequest
 			},
 		},
 	}
+	resp.Schema.MarkdownDescription = deprecationNotice + resp.Schema.Description
 }
 
 func (p *cloudEndureProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {

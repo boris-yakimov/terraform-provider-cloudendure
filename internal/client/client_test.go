@@ -107,7 +107,7 @@ func TestBlueprintLifecycle(t *testing.T) {
 	created, err := c.CreateBlueprint(ctx, testProject, &client.Blueprint{
 		MachineID:    machineID,
 		InstanceType: "COPY_ORIGIN",
-		SubnetIDs:    []string{"subnet-1"},
+		SubnetIDs:    &[]string{"subnet-1"},
 	})
 	if err != nil {
 		t.Fatalf("CreateBlueprint: %v", err)
@@ -125,7 +125,7 @@ func TestBlueprintLifecycle(t *testing.T) {
 	if err != nil {
 		t.Fatalf("UpdateBlueprint: %v", err)
 	}
-	if updated.InstanceType != "m5.large" || len(updated.SubnetIDs) != 1 {
+	if updated.InstanceType != "m5.large" || updated.SubnetIDs == nil || len(*updated.SubnetIDs) != 1 {
 		t.Fatalf("unexpected update result %+v", updated)
 	}
 

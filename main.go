@@ -3,31 +3,26 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/boris-yakimov/terraform-provider-cloudendure/cloudendure"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+
+	"github.com/boris-yakimov/terraform-provider-cloudendure/internal/provider"
 )
 
+// version is set at build time via -ldflags "-X main.version=...".
+var version = "dev"
+
 func main() {
-	var debugMode bool
-	flag.BoolVar(&debugMode, "debug", false, "set to true to run the provider with support for debuggers like delve")
+	var debug bool
+	flag.BoolVar(&debug, "debug", false, "run the provider with support for debuggers like delve")
 	flag.Parse()
 
-	opts := &plugin.ServeOpts{
-		ProviderFunc: func() *schema.Provider {
-			return cloudendure.Provider()
-		},
+	err := providerserver.Serve(context.Background(), provider.New(version), providerserver.ServeOpts{
+		Address: "registry.terraform.io/boris-yakimov/cloudendure",
+		Debug:   debug,
+	})
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	if debugMode {
-		err := plugin.Debug(context.Background(), "hashicorp.com/edu/cloudendure", opts)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		return
-	}
-
-	plugin.Serve(opts)
 }

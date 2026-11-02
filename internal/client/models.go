@@ -2,8 +2,9 @@ package client
 
 // Blueprint describes how a replicated machine is launched in the target cloud.
 //
-// Optional scalar fields are pointers so that PATCH requests only send the
-// attributes that were actually configured.
+// Optional scalar and list fields are pointers so that PATCH requests only
+// send the attributes that were actually configured, while still allowing an
+// explicit empty list to be sent to clear a value.
 type Blueprint struct {
 	ID        string `json:"id,omitempty"`
 	MachineID string `json:"machineId,omitempty"`
@@ -24,16 +25,16 @@ type Blueprint struct {
 	RunAfterLaunch          *bool `json:"runAfterLaunch,omitempty"`
 	UseSharedRAM            *bool `json:"useSharedRam,omitempty"`
 
-	SubnetIDs           []string `json:"subnetIDs,omitempty"`
-	SecurityGroupIDs    []string `json:"securityGroupIDs,omitempty"`
-	SecurityGroupAction string   `json:"securityGroupAction,omitempty"`
-	PrivateIPAction     string   `json:"privateIPAction,omitempty"`
-	PrivateIPs          []string `json:"privateIPs,omitempty"`
-	PublicIPAction      string   `json:"publicIPAction,omitempty"`
-	StaticIP            string   `json:"staticIp,omitempty"`
-	StaticIPAction      string   `json:"staticIpAction,omitempty"`
-	NetworkInterface    string   `json:"networkInterface,omitempty"`
-	SubnetsHostProject  string   `json:"subnetsHostProject,omitempty"`
+	SubnetIDs           *[]string `json:"subnetIDs,omitempty"`
+	SecurityGroupIDs    *[]string `json:"securityGroupIDs,omitempty"`
+	SecurityGroupAction string    `json:"securityGroupAction,omitempty"`
+	PrivateIPAction     string    `json:"privateIPAction,omitempty"`
+	PrivateIPs          *[]string `json:"privateIPs,omitempty"`
+	PublicIPAction      string    `json:"publicIPAction,omitempty"`
+	StaticIP            string    `json:"staticIp,omitempty"`
+	StaticIPAction      string    `json:"staticIpAction,omitempty"`
+	NetworkInterface    string    `json:"networkInterface,omitempty"`
+	SubnetsHostProject  string    `json:"subnetsHostProject,omitempty"`
 
 	// vCenter-only settings.
 	ScsiAdapterType    string `json:"scsiAdapterType,omitempty"`
@@ -44,8 +45,8 @@ type Blueprint struct {
 	ComputeLocationID  string `json:"computeLocationId,omitempty"`
 	LogicalLocationID  string `json:"logicalLocationId,omitempty"`
 
-	Tags  []Tag  `json:"tags,omitempty"`
-	Disks []Disk `json:"disks,omitempty"`
+	Tags  *[]Tag  `json:"tags,omitempty"`
+	Disks *[]Disk `json:"disks,omitempty"`
 }
 
 // Tag is a key/value tag applied to the launched target machine.

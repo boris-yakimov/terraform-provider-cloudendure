@@ -65,8 +65,8 @@ func TestSessionReusedAcrossRequests(t *testing.T) {
 			t.Fatalf("ListMachines: %v", err)
 		}
 	}
-	if srv.Logins != 1 {
-		t.Errorf("expected 1 login, got %d", srv.Logins)
+	if srv.LoginCount() != 1 {
+		t.Errorf("expected 1 login, got %d", srv.LoginCount())
 	}
 }
 

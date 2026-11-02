@@ -78,6 +78,34 @@ func (s *Server) AddBlueprint(bp client.Blueprint) string {
 	return bp.ID
 }
 
+// LoginCount returns how many successful logins the server has handled.
+func (s *Server) LoginCount() int {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.Logins
+}
+
+// BlueprintCount returns the number of stored blueprints.
+func (s *Server) BlueprintCount() int {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return len(s.Blueprints)
+}
+
+// RecoveryPlanCount returns the number of stored recovery plans.
+func (s *Server) RecoveryPlanCount() int {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return len(s.RecoveryPlans)
+}
+
+// DeleteAllRecoveryPlans simulates recovery plans being removed outside Terraform.
+func (s *Server) DeleteAllRecoveryPlans() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	clear(s.RecoveryPlans)
+}
+
 func (s *Server) newIDLocked(prefix string) string {
 	s.nextID++
 	return fmt.Sprintf("%s-%04d", prefix, s.nextID)
